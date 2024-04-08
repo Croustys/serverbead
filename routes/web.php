@@ -5,16 +5,11 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
+use App\Routers\CharacterRouter;
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/characters', [CharacterController::class, 'index'])->name('characters.index');
-Route::get('/characters/create', [CharacterController::class, 'create'])->name('characters.create');
-Route::get('/characters/{id}', [CharacterController::class, 'details'])->name('characters.details');
-Route::post('/characters', [CharacterController::class, 'store'])->name('characters.store');
-Route::get('/characters/{character}/edit', [CharacterController::class, 'edit'])->name('characters.edit');
-Route::put('/characters/{character}', [CharacterController::class, 'update'])->name('characters.update');
-Route::delete('/characters/{character}', [CharacterController::class, 'destroy'])->name('characters.destroy');
+CharacterRouter::routes();
 
 Route::get('/dashboard', function () {
     return view('dashboard');
