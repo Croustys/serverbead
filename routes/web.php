@@ -12,6 +12,9 @@ Route::get('/characters', [CharacterController::class, 'index'])->name('characte
 Route::get('/characters/create', [CharacterController::class, 'create'])->name('characters.create');
 Route::get('/characters/{id}', [CharacterController::class, 'details'])->name('characters.details');
 Route::post('/characters', [CharacterController::class, 'store'])->name('characters.store');
+Route::get('/characters/{character}/edit', [CharacterController::class, 'edit'])->name('characters.edit');
+Route::put('/characters/{character}', [CharacterController::class, 'update'])->name('characters.update');
+Route::delete('/characters/{character}', [CharacterController::class, 'destroy'])->name('characters.destroy');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -23,4 +26,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

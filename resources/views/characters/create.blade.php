@@ -41,6 +41,13 @@
         <input type="number" id="magic" name="magic" value="{{ old('magic') }}" required>
     </div>
 
+    @if(Auth::user()->admin)
+    <div>
+        <label for="enemy">Enemy:</label>
+        <input type="checkbox" id="enemy" name="enemy" value="1">
+    </div>
+    @endif
+
     <button type="submit">Create Character</button>
 </form>
 

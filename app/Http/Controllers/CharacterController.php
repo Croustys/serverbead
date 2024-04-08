@@ -22,6 +22,9 @@ class CharacterController extends Controller
 
     public function create()
     {
+        if (!Auth::check()) {
+            return redirect('/');
+        }
         return view('characters.create');
     }
 
@@ -58,5 +61,50 @@ class CharacterController extends Controller
     {
         $character = Character::findOrFail($id);
         return view('characters.details', compact('character'));
+    }
+
+    public function edit(Character $character)
+    {
+        if ($character->user_id !== auth()->id() && !auth()->user()->admin) {
+            $user = Auth::user();
+            $characters = $user->characters;
+
+            return redirect()->route('characters.index');
+        }
+        return view('characters.edit', compact('character'));
+    }
+
+    public function update(Request $request, Character $character)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'defence' => 'required|integer|min:0',
+        ]);
+
+        if ($character->user_id !== Auth::id() && !(Auth::user()->admin && $character->is_enemy)) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $character->update([
+            'name' => $request->name,
+            'defence' => $request->defence,
+            'strength' => $request->strength,
+            'accuracy' => $request->accuracy,
+            'magic' => $request->magic,
+            'is_enemy' => $request->has('enemy') && Auth::user()->admin && $character->is_enemy,
+        ]);
+
+        return redirect()->route('characters.index')->with('success', 'Character updated successfully.');
+    }
+
+    public function destroy(Character $character)
+    {
+        if ($character->user_id !== auth()->id() && !auth()->user()->admin) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $character->delete();
+
+        return redirect()->route('characters.index')->with('success', 'Character deleted successfully.');
     }
 }
