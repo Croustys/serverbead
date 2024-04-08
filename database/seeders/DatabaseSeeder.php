@@ -39,9 +39,9 @@ class DatabaseSeeder extends Seeder
                 'name' => $faker->firstName,
                 'enemy' => false,
                 'defence' => $faker->numberBetween(0, 3),
-                'strength' => $faker->numberBetween(0, 20),
-                'accuracy' => $faker->numberBetween(0, 20),
-                'magic' => $faker->numberBetween(0, 20),
+                'strength' => $faker->numberBetween(0, 5),
+                'accuracy' => $faker->numberBetween(0, 5),
+                'magic' => $faker->numberBetween(0, 5),
             ]);
 
             $enemy = User::factory()->create();
@@ -49,9 +49,9 @@ class DatabaseSeeder extends Seeder
                 'name' => $faker->firstName,
                 'enemy' => true,
                 'defence' => $faker->numberBetween(0, 3),
-                'strength' => $faker->numberBetween(0, 20),
-                'accuracy' => $faker->numberBetween(0, 20),
-                'magic' => $faker->numberBetween(0, 20),
+                'strength' => $faker->numberBetween(0, 10),
+                'accuracy' => $faker->numberBetween(0, 10),
+                'magic' => $faker->numberBetween(0, 10),
             ]);
 
             $match = MatchModel::create([
