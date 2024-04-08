@@ -14,6 +14,7 @@
                 <h1>Üdvözöljük a játékban!</h1>
                 <p>Üdvözöljük a játékban! Ez a szöveg rövid ismertető arról, hogy miről is szól a játék.</p>
                 <p>A játékban jelenleg összesen {{ $characterCount }} karakter van létrehozva, és {{ $matchCount }} mérkőzést játszottak le.</p>
+                <a href="/login">Login</a>
             </div>
         </div>
     </div>
