@@ -31,26 +31,6 @@ class Character extends Model
         });
     }
 
-    public function setDefenceAttribute($value)
-    {
-        $this->attributes['defence'] = min(max(0, $value), 3);
-    }
-
-    public function setStrengthAttribute($value)
-    {
-        $this->attributes['strength'] = min(max(0, $value), 20);
-    }
-
-    public function setAccuracyAttribute($value)
-    {
-        $this->attributes['accuracy'] = min(max(0, $value), 20);
-    }
-
-    public function setMagicAttribute($value)
-    {
-        $this->attributes['magic'] = min(max(0, $value), 20);
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -58,12 +38,6 @@ class Character extends Model
 
     public function matches()
     {
-        return $this->belongsToMany(MatchModel::class);
-    }
-
-    public function matchesWithPivot()
-    {
         return $this->belongsToMany(MatchModel::class)->withPivot('hero_hp', 'enemy_hp');
     }
 }
-

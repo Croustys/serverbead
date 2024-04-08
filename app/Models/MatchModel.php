@@ -9,7 +9,7 @@ class MatchModel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['win', 'history'];
+    protected $fillable = ['win', 'history', 'place_id'];
 
     /**
      * Get the attributes that should be cast.
@@ -23,17 +23,16 @@ class MatchModel extends Model
         ];
     }
 
-    public function characters()
-    {
-        return $this->hasMany(Character::class);
-    }
-
     public function place()
     {
         return $this->belongsTo(Place::class);
     }
-    
-    public function charactersWithPivot()
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function characters()
     {
         return $this->belongsToMany(Character::class)->withPivot('hero_hp', 'enemy_hp');
     }

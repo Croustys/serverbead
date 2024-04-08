@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('win')->nullable();
             $table->json('history')->nullable();
-            $table->foreignId('place_id')->constrained()->onDelete('cascade');
+            $table->foreignId('place_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('matches_models');
+        Schema::dropIfExists('match_models');
     }
 };

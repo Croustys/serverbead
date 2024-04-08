@@ -3,65 +3,38 @@
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Character;
-use App\Models\Place;
 use App\Models\MatchModel;
-use Faker\Factory as Faker;
+use App\Models\Place;
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Seed the application's database.
      *
      * @return void
      */
     public function run()
     {
-        $faker = Faker::create();
+        User::factory()->count(5)->create()->each(function ($user) {
+            $user->characters()->saveMany(Character::factory()->count(2)->make());
+        });
 
-        $admin = User::create([
-            'name' => $faker->name,
-            'email' => 'admin2@example.com',
-            'password' => bcrypt('password'),
-            'admin' => true,
-        ]);
+        MatchModel::factory()->count(5)->create()->each(function ($match) {
+            $place = Place::factory()->create();
+            $match->place()->associate($place);
 
-        $places = [];
-        for ($i = 0; $i < 5; $i++) {
-            $places[] = Place::create([
-                'name' => $faker->city,
-                'image' => $faker->imageUrl(),
-            ]);
-        }
+            $characters = Character::factory()->count(2)->create();
 
-        foreach ($places as $place) {
-            $user = User::factory()->create();
-            $user->characters()->create([
-                'name' => $faker->firstName,
-                'enemy' => false,
-                'defence' => $faker->numberBetween(0, 3),
-                'strength' => $faker->numberBetween(0, 5),
-                'accuracy' => $faker->numberBetween(0, 5),
-                'magic' => $faker->numberBetween(0, 5),
+            $match->characters()->attach([$characters[0]->id, $characters[1]->id], [
+                'hero_hp' => $characters[0]->strength + $characters[0]->magic,
+                'enemy_hp' => $characters[1]->strength + $characters[1]->magic,
             ]);
 
-            $enemy = User::factory()->create();
-            $enemy->characters()->create([
-                'name' => $faker->firstName,
-                'enemy' => true,
-                'defence' => $faker->numberBetween(0, 3),
-                'strength' => $faker->numberBetween(0, 10),
-                'accuracy' => $faker->numberBetween(0, 10),
-                'magic' => $faker->numberBetween(0, 10),
-            ]);
-
-            $match = MatchModel::create([
-                'win' => $faker->boolean,
-                'history' => $faker->text,
-                'place_id' => $place->id,
-            ]);
-
-            $match->characters()->attach([$user->characters->first()->id => ['hero_hp' => 20, 'enemy_hp' => 20]]);
-            $match->characters()->attach([$enemy->characters->first()->id => ['hero_hp' => 20, 'enemy_hp' => 20]]);
-        }
+            if ($match->win) {
+                $characters[1]->update(['defence' => 0]);
+            } else {
+                $characters[0]->update(['defence' => 0]);
+            }
+        });
     }
 }
