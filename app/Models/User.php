@@ -51,8 +51,8 @@ class User extends Authenticatable
         return $this->hasMany(Character::class);
     }
 
-    public function matches()
+    public function contests()
     {
-        return $this->hasMany(MatchModel::class);
+        return $this->hasMany(Contest::class);
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 

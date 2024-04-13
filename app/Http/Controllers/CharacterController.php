@@ -5,15 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Character;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class CharacterController extends Controller
 {
     public function index()
     {
-        if (!Auth::check()) {
-            return redirect('/');
-        }
         $user = Auth::user();
         $characters = $user->characters;
 
@@ -22,9 +18,6 @@ class CharacterController extends Controller
 
     public function create()
     {
-        if (!Auth::check()) {
-            return redirect('/');
-        }
         return view('characters.create');
     }
 
@@ -76,14 +69,14 @@ class CharacterController extends Controller
 
     public function update(Request $request, Character $character)
     {
+        if ($character->user_id !== Auth::id() && !(Auth::user()->admin && $character->is_enemy)) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'defence' => 'required|integer|min:0',
         ]);
-
-        if ($character->user_id !== Auth::id() && !(Auth::user()->admin && $character->is_enemy)) {
-            abort(403, 'Unauthorized action.');
-        }
 
         $character->update([
             'name' => $request->name,

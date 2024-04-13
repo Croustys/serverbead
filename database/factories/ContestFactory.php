@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\MatchModel;
+use App\Models\Contest;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class MatchModelFactory extends Factory
+class ContestFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = MatchModel::class;
+    protected $model = Contest::class;
 
     /**
      * Define the model's default state.

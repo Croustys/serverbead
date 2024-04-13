@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MatchModel extends Model
+class Contest extends Model
 {
     use HasFactory;
 
     protected $fillable = ['win', 'history', 'place_id'];
+
+    protected $table = 'contests';
 
     /**
      * Get the attributes that should be cast.

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Character;
-use App\Models\MatchModel;
+use App\Models\Contest;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +13,7 @@ class HomeController extends Controller
     {
         $characterCount = Character::count();
 
-        $matchCount = MatchModel::count();
+        $matchCount = Contest::count();
 
         return view('home', compact('characterCount', 'matchCount'));
     }

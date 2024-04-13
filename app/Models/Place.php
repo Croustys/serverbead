@@ -13,7 +13,7 @@ class Place extends Model
 
     public function matches()
     {
-        return $this->hasMany(MatchModel::class);
+        return $this->hasMany(Contest::class);
     }
 }
 

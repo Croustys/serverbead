@@ -14,6 +14,10 @@
     <p><strong>Strength:</strong> {{ $character->strength }}</p>
     <p><strong>Accuracy:</strong> {{ $character->accuracy }}</p>
     <p><strong>Magic:</strong> {{ $character->magic }}</p>
+    <form method="POST" action="{{ route('matches.create', $character->id) }}">
+        @csrf
+        <button type="submit">Start New Match</button>
+    </form>
     <p><a href="{{ route('characters.index') }}">Back to Characters</a></p>
     <p><a href="{{ route('characters.edit', $character->id) }}">Edit</a></p>
     <form method="POST" action="{{ route('characters.destroy', $character->id) }}" onsubmit="return confirm('Are you sure you want to delete this character?')">
