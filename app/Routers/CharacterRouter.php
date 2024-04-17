@@ -3,7 +3,7 @@
 namespace App\Routers;
 
 use App\Http\Controllers\CharacterController;
-use App\Http\Controllers\MatchController;
+use App\Http\Controllers\ContestController;
 use Illuminate\Support\Facades\Route;
 
 class CharacterRouter
@@ -18,7 +18,7 @@ class CharacterRouter
       Route::get('/{id}', [CharacterController::class, 'details'])->middleware(['auth', 'verified'])->name('characters.details');
       Route::put('/{character}', [CharacterController::class, 'update'])->name('characters.update');
       Route::delete('/{character}', [CharacterController::class, 'destroy'])->name('characters.destroy');
-      Route::post('/{character}/matches', [MatchController::class, 'create'])->middleware(['auth', 'verified'])->name('matches.create');
+      Route::post('/{character}/matches', [ContestController::class, 'create'])->middleware(['auth', 'verified'])->name('matches.create');
     });
   }
 }

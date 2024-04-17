@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Character;
+use App\Models\Place;
+use App\Models\Contest;
 use Illuminate\Support\Facades\Auth;
 
 class CharacterController extends Controller
@@ -100,4 +102,29 @@ class CharacterController extends Controller
 
         return redirect()->route('characters.index')->with('success', 'Character deleted successfully.');
     }
+
+    public function startMatch(Character $character)
+{
+    // Véletlenszerűen válasszunk helyszínt
+    $place = Place::inRandomOrder()->first();
+
+    // Véletlenszerűen válasszunk ellenfelet
+    $opponent = Character::where('id', '!=', $character->id)->inRandomOrder()->first();
+
+    // Mérkőzés létrehozása
+    $contest = new Contest();
+    $contest->win = null; // Még nincs győztes
+    $contest->history = ''; // Kezdetben üres a történet
+    $contest->place()->associate($place);
+    $contest->save();
+
+    // A karakterek hozzáadása a mérkőzéshez
+    $contest->characters()->attach([$character->id, $opponent->id], [
+        'hero_hp' => $character->strength + $character->magic,
+        'enemy_hp' => $opponent->strength + $opponent->magic,
+    ]);
+
+    // Felhasználó átirányítása a mérkőzés oldalára
+    return redirect()->route('contests.show', $contest);
+}
 }
