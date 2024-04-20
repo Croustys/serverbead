@@ -19,7 +19,7 @@ Route::get('/contests', [ContestController::class, 'index'])->name('contests.ind
 Route::get('/contests/{contest}', [ContestController::class, 'show'])->name('contests.show');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect('/characters');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -30,5 +30,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/places', [PlaceController::class, 'index'])->name('places.index');
 Route::get('/places/create', [PlaceController::class, 'store'])->name('places.create');
+
+Route::get('/matches', 'MatchController@index')->name('matches.index');
 
 require __DIR__ . '/auth.php';
