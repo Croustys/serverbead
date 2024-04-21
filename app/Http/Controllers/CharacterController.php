@@ -54,7 +54,7 @@ class CharacterController extends Controller
 
     public function details($id)
     {
-        $character = Character::findOrFail($id);
+        $character = Character::with('contests')->findOrFail($id);
         return view('characters.details', compact('character'));
     }
 

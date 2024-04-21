@@ -44,7 +44,7 @@
 
         @if(Auth::user()->admin)
         <div class="flex items-center">
-            <input type="checkbox" id="enemy" name="enemy" value="1" class="mr-2">
+            <input type="checkbox" id="enemy" name="enemy" value="1" {{ old('enemy') ? 'checked' : '' }} class="mr-2">
             <label for="enemy">Enemy</label>
         </div>
         @endif
