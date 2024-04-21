@@ -9,6 +9,7 @@
         <p>Üdvözöljük a játékban! Ez a szöveg rövid ismertető arról, hogy miről is szól a játék.</p>
         <p>A játékban jelenleg összesen {{ $characterCount }} karakter van létrehozva, és {{ $matchCount }} mérkőzést játszottak le.</p>
         <a href="/login" class="block w-full mt-4 py-2 px-4 bg-blue-500 text-white text-center rounded-md">Belépés</a>
+        <a href="/register" class="block w-full mt-4 py-2 px-4 bg-blue-500 text-white text-center rounded-md">Regisztrálás</a>
     </div>
 </div>
 @endsection
