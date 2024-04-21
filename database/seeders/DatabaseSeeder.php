@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $faker = Faker::create();
         User::factory()->count(10)->create()->each(function ($user) use ($faker) {
             $isUserAdmin = $user->admin;
-            $characters = Character::factory()->count(2)->make([
+            $characters = Character::factory()->count(5)->make([
                 'enemy' => $isUserAdmin ? $faker->boolean() : false,
             ]);
 
@@ -28,38 +28,25 @@ class DatabaseSeeder extends Seeder
 
 
         User::all()->each(function ($user) {
-            Contest::factory()->count(1)->create(['user_id' => $user->id])->each(function ($contest) use ($user) {
-                $place = Place::factory()->create();
-                $contest->place()->associate($place);
-                $contest->save();
+            $admin = User::where('admin', true)->inRandomOrder()->first();
+            $hero = $user->characters()->where('enemy', false)->inRandomOrder()->first();
+            $enemy = $admin->characters()->where('enemy', true)->inRandomOrder()->first();
 
-                $userCharacter = $user->characters()->inRandomOrder()->first();
+            if ($hero && $enemy) {
+                Contest::factory()->count(2)->create(['user_id' => $user->id])->each(function ($contest) use ($hero, $enemy) {
+                    $faker = Faker::create();
+                    $winhp = $faker->randomFloat(1, 20);
+                    $place = Place::factory()->create();
+                    $contest->place()->associate($place);
 
-                $adminEnemy = User::where('admin', true)->whereHas('characters', function ($query) {
-                    $query->where('enemy', true);
-                })->inRandomOrder()->first();
+                    $contest->characters()->attach([$hero->id, $enemy->id], [
+                        'hero_hp' => $contest->win ? $winhp : 0,
+                        'enemy_hp' => !$contest->win ? $winhp : 0,
+                    ]);
 
-                if (!$adminEnemy) {
-                    $adminEnemy = User::where('admin', true)
-                        ->where('id', '!=', $user->id)
-                        ->inRandomOrder()->first();
-                }
-
-                if (!$adminEnemy) {
-                    return;
-                }
-
-                $contest->characters()->attach([$userCharacter->id, $adminEnemy->characters()->where('enemy', true)->inRandomOrder()->first()->id], [
-                    'hero_hp' => $userCharacter->strength + $userCharacter->magic,
-                    'enemy_hp' => $adminEnemy->characters()->where('enemy', true)->inRandomOrder()->first()->strength + $adminEnemy->characters()->where('enemy', true)->inRandomOrder()->first()->magic,
-                ]);
-
-                if ($contest->win) {
-                    $adminEnemy->characters()->where('enemy', true)->update(['defence' => 0]);
-                } else {
-                    $userCharacter->update(['defence' => 0]);
-                }
-            });
+                    $contest->save();
+                });
+            }
         });
     }
 }
