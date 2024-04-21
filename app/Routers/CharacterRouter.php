@@ -19,6 +19,7 @@ class CharacterRouter
       Route::put('/{character}', [CharacterController::class, 'update'])->name('characters.update');
       Route::delete('/{character}', [CharacterController::class, 'destroy'])->name('characters.destroy');
       Route::post('/{character}/matches', [ContestController::class, 'create'])->middleware(['auth', 'verified'])->name('matches.create');
+      Route::post('/{character}/start-match', [CharacterController::class, 'startMatch'])->name('characters.start-match');
     });
   }
 }

@@ -22,7 +22,11 @@
             <img src="{{ $place->image }}" alt="Place Image" class="h-16">
           </td>
           <td class="px-4 py-2 border">
-            {{-- Add actions here --}}
+            <form method="POST" action="{{ route('places.destroy', $place->id) }}" onsubmit="return confirm('Are you sure you want to delete this place?')">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300 mt-4">Helyszín törlése</button>
+            </form>
           </td>
         </tr>
         @endforeach

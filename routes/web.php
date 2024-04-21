@@ -4,19 +4,15 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\CharacterController;
-use App\Http\Controllers\ContestController;
-use App\Http\Controllers\PlaceController;
 use App\Routers\CharacterRouter;
+use App\Routers\ContestRouter;
+use App\Routers\PlaceRouter;
 
 Route::get('/', [HomeController::class, 'index']);
 
 CharacterRouter::routes();
-
-Route::post('/characters/{character}/start-match', [CharacterController::class, 'startMatch'])->name('characters.start-match');
-Route::get('/contests/{contest}', [ContestController::class, 'show'])->name('contests.show');
-Route::get('/contests', [ContestController::class, 'index'])->name('contests.index');
-Route::get('/contests/{contest}', [ContestController::class, 'show'])->name('contests.show');
+PlaceRouter::routes();
+ContestRouter::routes();
 
 Route::get('/dashboard', function () {
     return redirect('/characters');
@@ -27,9 +23,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::get('/places', [PlaceController::class, 'index'])->name('places.index');
-Route::get('/places/create', [PlaceController::class, 'store'])->name('places.create');
 
 Route::get('/matches', 'MatchController@index')->name('matches.index');
 

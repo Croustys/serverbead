@@ -36,6 +36,11 @@
                     <li class="nav-item ml-3 mr-3">
                         <a class="nav-link" href="{{ route('contests.index') }}">Mérkőzések</a>
                     </li>
+                    @if(auth()->user()->admin)
+                    <li class="nav-item ml-3 mr-3">
+                        <a class="nav-link" href="{{ route('places.index') }}">Helyszínek</a>
+                    </li>
+                    @endif
                     @endauth
                 </ul>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

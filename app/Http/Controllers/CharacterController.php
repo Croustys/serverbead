@@ -104,27 +104,27 @@ class CharacterController extends Controller
     }
 
     public function startMatch(Character $character)
-{
-    // Véletlenszerűen válasszunk helyszínt
-    $place = Place::inRandomOrder()->first();
+    {
+        // Véletlenszerűen válasszunk helyszínt
+        $place = Place::inRandomOrder()->first();
 
-    // Véletlenszerűen válasszunk ellenfelet
-    $opponent = Character::where('id', '!=', $character->id)->inRandomOrder()->first();
+        // Véletlenszerűen válasszunk ellenfelet
+        $opponent = Character::where('id', '!=', $character->id)->inRandomOrder()->first();
 
-    // Mérkőzés létrehozása
-    $contest = new Contest();
-    $contest->win = null; // Még nincs győztes
-    $contest->history = ''; // Kezdetben üres a történet
-    $contest->place()->associate($place);
-    $contest->save();
+        // Mérkőzés létrehozása
+        $contest = new Contest();
+        $contest->win = null; // Még nincs győztes
+        $contest->history = ''; // Kezdetben üres a történet
+        $contest->place()->associate($place);
+        $contest->save();
 
-    // A karakterek hozzáadása a mérkőzéshez
-    $contest->characters()->attach([$character->id, $opponent->id], [
-        'hero_hp' => $character->strength + $character->magic,
-        'enemy_hp' => $opponent->strength + $opponent->magic,
-    ]);
+        // A karakterek hozzáadása a mérkőzéshez
+        $contest->characters()->attach([$character->id, $opponent->id], [
+            'hero_hp' => $character->strength + $character->magic,
+            'enemy_hp' => $opponent->strength + $opponent->magic,
+        ]);
 
-    // Felhasználó átirányítása a mérkőzés oldalára
-    return redirect()->route('contests.show', $contest);
-}
+        // Felhasználó átirányítása a mérkőzés oldalára
+        return redirect()->route('contests.show', $contest);
+    }
 }
