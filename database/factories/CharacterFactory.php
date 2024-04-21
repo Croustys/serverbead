@@ -31,12 +31,10 @@ class CharacterFactory extends Factory
 
         return [
             'name' => $this->faker->name,
-            'enemy' => $this->faker->boolean,
             'defence' => $defence,
             'strength' => $strength,
             'accuracy' => $accuracy,
-            'magic' => $magic,
-            'user_id' => User::factory()->create()->id,
+            'magic' => $magic
         ];
     }
 }

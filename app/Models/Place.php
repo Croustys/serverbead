@@ -11,7 +11,7 @@ class Place extends Model
 
     protected $fillable = ['name', 'image'];
 
-    public function matches()
+    public function contests()
     {
         return $this->hasMany(Contest::class);
     }
