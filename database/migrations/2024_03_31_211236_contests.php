@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('win')->nullable();
             $table->json('history')->nullable();
-            $table->foreignId('place_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('place_id')->nullable()->constrained('places')->onDelete('set null');
             $table->timestamps();
         });
     }

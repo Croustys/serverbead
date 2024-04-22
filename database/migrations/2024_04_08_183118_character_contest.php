@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('character_contest', function (Blueprint $table) {
             $table->id();
             $table->foreignId('character_id')->constrained();
-            $table->foreignId('contest_id')->constrained();
+            $table->foreignId('contest_id')->nullable()->constrained()->onDelete('cascade');
             $table->float('hero_hp')->nullable();
             $table->float('enemy_hp')->nullable();
             $table->timestamps();
