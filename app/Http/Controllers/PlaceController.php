@@ -20,7 +20,7 @@ class PlaceController extends Controller
   {
     $request->validate([
       'name' => 'required|string|max:255',
-      'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
+      'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
     ]);
 
     $imagePath = $request->file('image')->store('images/places');

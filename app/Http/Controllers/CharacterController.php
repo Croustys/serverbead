@@ -34,8 +34,8 @@ class CharacterController extends Controller
         ]);
 
         $totalPoints = $request->defence + $request->strength + $request->accuracy + $request->magic;
-        if ($totalPoints !== 20) {
-            return back()->with('error', 'The total attribute points must be equal to 20.');
+        if ($totalPoints > 20) {
+            return redirect()->back()->withErrors(["totalPoints" => "Nem lehet összesen 20nál több képességpontod!"])->withInput();
         }
 
         $user = Auth::user();
@@ -78,7 +78,15 @@ class CharacterController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'defence' => 'required|integer|min:0',
+            'strength' => 'required|integer|min:0',
+            'accuracy' => 'required|integer|min:0',
+            'magic' => 'required|integer|min:0',
         ]);
+
+        $totalPoints = $request->defence + $request->strength + $request->accuracy + $request->magic;
+        if ($totalPoints > 20) {
+            return redirect()->back()->withErrors(["total" => "Nem lehet összesen 20nál több képességpontod!"])->withInput();
+        }
 
         $character->update([
             'name' => $request->name,

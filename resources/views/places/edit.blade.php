@@ -3,7 +3,18 @@
 @section('content')
 <div class="max-w-md mx-auto mt-8">
   <h1 class="text-3xl font-bold mb-4">Helyszín adatainak módosítása</h1>
-  <form action="{{ route('places.update', $place->id) }}" method="POST" enctype="multipart/form-data">
+
+  @if ($errors->any())
+  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+    <ul>
+      @foreach ($errors->all() as $error)
+      <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+  @endif
+
+  <form action="{{ route('places.update', $place->id) }}" method="POST" enctype="multipart/form-data" novalidate>
     @csrf
     @method('PUT')
     <div class="mb-4">

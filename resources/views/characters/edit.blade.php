@@ -6,6 +6,16 @@
 <div class="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg">
     <h1 class="text-2xl font-semibold mb-4">Karakter módosítás</h1>
 
+    @if ($errors->any())
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
     <form method="POST" action="{{ route('characters.update', $character->id) }}" class="space-y-4">
         @csrf
         @method('PUT')
