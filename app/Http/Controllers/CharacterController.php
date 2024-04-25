@@ -48,9 +48,8 @@ class CharacterController extends Controller
         $character->accuracy = $request->accuracy;
         $character->magic = $request->magic;
         $character->user_id = $user->id;
-        if ($user->admin) {
-            $character->enemy = $request->enemy;
-        }
+        $character->enemy = $user->admin ? !is_null($request->enemy) : false;
+
         $character->save();
 
         return redirect()->route('characters.index')->with('success', 'Character created successfully.');

@@ -65,10 +65,18 @@ class PlaceController extends Controller
     ]);
 
     $place->name = $request->name;
+    $oldImage = $place->image;
 
     if ($request->hasFile('image')) {
       $imagePath = $request->file('image')->store('places', 'public');
       $place->image = $imagePath;
+    }
+
+    if ($oldImage) {
+      $path = 'public/' . $oldImage;
+      if (Storage::exists($path)) {
+        Storage::delete($path);
+      }
     }
 
     $place->save();
