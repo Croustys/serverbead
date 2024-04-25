@@ -13,9 +13,15 @@ class CharacterController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $characters = $user->characters;
+        $characters = $user->characters->where('enemy', false);
+        $enemies = null;
 
-        return view('characters.index', compact('characters'));
+        if ($user->admin) {
+            $enemies = Character::where('enemy', true)->get();
+        }
+
+
+        return view('characters.index', compact('characters', 'enemies'));
     }
 
     public function create()
