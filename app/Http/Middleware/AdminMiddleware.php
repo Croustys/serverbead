@@ -10,7 +10,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!auth()->check() || !auth()->user()->admin) {
-            abort(403, 'Unauthorized action.');
+            return redirect('/');
         }
 
         return $next($request);

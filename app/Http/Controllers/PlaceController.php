@@ -30,7 +30,7 @@ class PlaceController extends Controller
       'image' => $imagePath,
     ]);
 
-    return redirect()->route('places.create')->with('success', 'Helyszín sikeresen létrehozva!');
+    return redirect()->route('places.create')->with('success', 'Place creation successful.');
   }
 
   public function destroy(Place $place)
@@ -65,6 +65,6 @@ class PlaceController extends Controller
 
     $place->save();
 
-    return redirect()->route('places.index')->with('success', 'Helyszín frissítve.');
+    return redirect()->route('places.index')->with('success', 'Place updated successfully.');
   }
 }

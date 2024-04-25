@@ -26,13 +26,13 @@ class Character extends Model
         static::saving(function ($character) {
             $totalPoints = $character->defence + $character->strength + $character->accuracy + $character->magic;
             if ($totalPoints > 20) {
-                throw new \Exception("A képességpontok összege nem lehet több, mint 20.");
+                throw new \Exception("Ability points cant exceed 20!");
             }
 
             if ($character->enemy) {
                 $user = $character->user;
                 if (!$user || !$user->admin) {
-                    throw new \Exception("A karakter csak akkor lehet ellenség, ha a felhasználó admin.");
+                    throw new \Exception("Character can only be enemy if user has admin privileges.");
                 }
             }
         });

@@ -35,7 +35,7 @@ class CharacterController extends Controller
 
         $totalPoints = $request->defence + $request->strength + $request->accuracy + $request->magic;
         if ($totalPoints > 20) {
-            return redirect()->back()->withErrors(["totalPoints" => "Nem lehet összesen 20nál több képességpontod!"])->withInput();
+            return redirect()->back()->withErrors(["total" => "Sum of ability points can't exceed 20!"])->withInput();
         }
 
         $user = Auth::user();
@@ -85,7 +85,7 @@ class CharacterController extends Controller
 
         $totalPoints = $request->defence + $request->strength + $request->accuracy + $request->magic;
         if ($totalPoints > 20) {
-            return redirect()->back()->withErrors(["total" => "Nem lehet összesen 20nál több képességpontod!"])->withInput();
+            return redirect()->back()->withErrors(["total" => "Sum of ability points can't exceed 20!"])->withInput();
         }
 
         $character->update([
@@ -113,26 +113,21 @@ class CharacterController extends Controller
 
     public function startMatch(Character $character)
     {
-        // Véletlenszerűen válasszunk helyszínt
         $place = Place::inRandomOrder()->first();
 
-        // Véletlenszerűen válasszunk ellenfelet
-        $opponent = Character::where('id', '!=', $character->id)->inRandomOrder()->first();
+        $opponent = Character::where('id', '!=', $character->id)->where('enemy', true)->inRandomOrder()->first();
 
-        // Mérkőzés létrehozása
         $contest = new Contest();
-        $contest->win = null; // Még nincs győztes
-        $contest->history = ''; // Kezdetben üres a történet
+        $contest->win = null;
+        $contest->history = '';
         $contest->place()->associate($place);
         $contest->save();
 
-        // A karakterek hozzáadása a mérkőzéshez
         $contest->characters()->attach([$character->id, $opponent->id], [
             'hero_hp' => $character->strength + $character->magic,
             'enemy_hp' => $opponent->strength + $opponent->magic,
         ]);
 
-        // Felhasználó átirányítása a mérkőzés oldalára
         return redirect()->route('contests.show', $contest);
     }
 }

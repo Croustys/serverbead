@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Character;
 use App\Models\Contest;
 use App\Models\Place;
-use Illuminate\Support\Facades\Redirect;
 
 class ContestController extends Controller
 {
