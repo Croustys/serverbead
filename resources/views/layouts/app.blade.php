@@ -30,11 +30,11 @@
                             <div class="ml-10 flex items-baseline space-x-4">
                                 @auth
                                 <a href="{{ route('characters.index') }}" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Characters</a>
-                                <a href="{{ route('contests.index') }}" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Contests</a>
                                 @if(auth()->user()->admin)
                                 <a href="{{ route('places.index') }}" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Places</a>
                                 @endif
                                 @endauth
+                                <a href="{{ route('contests.index') }}" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Contests</a>
                             </div>
                         </div>
                     </div>
