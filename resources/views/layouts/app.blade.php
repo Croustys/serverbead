@@ -7,12 +7,12 @@
     @vite('resources/css/app.css')
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>
         @if (View::hasSection('title'))
-        @yield('title') |
+        @yield('title')
         @endif
-        {{ config('app.name', 'Laravel') }}
     </title>
 
 </head>
@@ -29,10 +29,10 @@
                         <div class="hidden md:block">
                             <div class="ml-10 flex items-baseline space-x-4">
                                 @auth
-                                <a href="{{ route('characters.index') }}" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Karakterek</a>
-                                <a href="{{ route('contests.index') }}" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Mérkőzések</a>
+                                <a href="{{ route('characters.index') }}" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Characters</a>
+                                <a href="{{ route('contests.index') }}" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Contests</a>
                                 @if(auth()->user()->admin)
-                                <a href="{{ route('places.index') }}" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Helyszínek</a>
+                                <a href="{{ route('places.index') }}" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Places</a>
                                 @endif
                                 @endauth
                             </div>

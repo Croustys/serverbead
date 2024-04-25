@@ -20,10 +20,9 @@ class ContestController extends Controller
   {
     $locations = Place::pluck('id')->toArray();
 
-    $enemies = Character::where('id', '!=', $character->id)->get();
+    $enemy = Character::where('id', '!=', $character->id)->where('enemy', true)->inRandomOrder()->first();
 
     $location = $locations[array_rand($locations)];
-    $enemy = $enemies->random();
 
     $match = new Contest();
     $match->place_id = $location;

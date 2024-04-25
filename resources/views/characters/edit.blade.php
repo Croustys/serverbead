@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Karakter módosítás')
+@section('title', 'Edit | ' . $character->name)
 
 @section('content')
 <div class="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg">
-    <h1 class="text-2xl font-semibold mb-4">Karakter módosítás</h1>
+    <h1 class="text-2xl font-semibold mb-4">Edit Character</h1>
 
     @if ($errors->any())
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
