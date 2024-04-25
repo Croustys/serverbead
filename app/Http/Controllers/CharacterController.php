@@ -84,7 +84,7 @@ class CharacterController extends Controller
 
     public function update(Request $request, Character $character)
     {
-        if ($character->user_id !== Auth::id() && !(Auth::user()->admin && $character->is_enemy)) {
+        if ($character->user_id !== Auth::id() && !(Auth::user()->admin && $character->enemy)) {
             return redirect()->route('characters.index');
         }
 
@@ -107,7 +107,7 @@ class CharacterController extends Controller
             'strength' => $request->strength,
             'accuracy' => $request->accuracy,
             'magic' => $request->magic,
-            'is_enemy' => $request->has('enemy') && Auth::user()->admin && $character->is_enemy,
+            'is_enemy' => $request->has('enemy') && Auth::user()->admin && $character->enemy,
         ]);
 
         return redirect()->route('characters.index')->with('success', 'Character updated successfully.');
