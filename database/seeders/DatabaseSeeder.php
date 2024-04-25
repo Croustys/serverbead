@@ -28,9 +28,8 @@ class DatabaseSeeder extends Seeder
 
 
         User::all()->each(function ($user) {
-            $admin = User::where('admin', true)->inRandomOrder()->first();
+            $enemy = Character::where('enemy', true)->where('user_id', '!=', $user->id)->inRandomOrder()->first();
             $hero = $user->characters()->where('enemy', false)->inRandomOrder()->first();
-            $enemy = $admin->characters()->where('enemy', true)->inRandomOrder()->first();
 
             if ($hero && $enemy) {
                 Contest::factory()->count(2)->create(['user_id' => $user->id])->each(function ($contest) use ($hero, $enemy) {
