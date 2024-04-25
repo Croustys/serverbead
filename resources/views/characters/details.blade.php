@@ -5,6 +5,15 @@
 @section('content')
 <div class="container mx-auto mt-8 p-10 flex justify-evenly">
     <div class="bg-white rounded-lg shadow-md max-w-fit">
+        @if ($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <div class="p-6">
             <div class="flex justify-between">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4">Character Details</h2>

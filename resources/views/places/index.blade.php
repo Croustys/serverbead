@@ -24,7 +24,7 @@
             @if(Str::startsWith($place->image, 'http'))
             <img src="{{ $place->image }}" alt="Place Image" class="h-16">
             @else
-            <img src="{{ asset('storage/places/' . $place->image) }}" alt="Place Image" class="h-16">
+            <img src="{{ asset('storage/' . $place->image) }}" alt="Place Image" class="h-16">
             @endif
           </td>
           <td class="px-4 py-2 border text-center">

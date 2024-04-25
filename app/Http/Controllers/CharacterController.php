@@ -31,6 +31,7 @@ class CharacterController extends Controller
             'strength' => 'required|integer|min:0',
             'accuracy' => 'required|integer|min:0',
             'magic' => 'required|integer|min:0',
+            'enemy' => 'nullable|boolean',
         ]);
 
         $totalPoints = $request->defence + $request->strength + $request->accuracy + $request->magic;
@@ -47,6 +48,9 @@ class CharacterController extends Controller
         $character->accuracy = $request->accuracy;
         $character->magic = $request->magic;
         $character->user_id = $user->id;
+        if ($user->admin) {
+            $character->enemy = $request->enemy;
+        }
         $character->save();
 
         return redirect()->route('characters.index')->with('success', 'Character created successfully.');
@@ -54,7 +58,11 @@ class CharacterController extends Controller
 
     public function details($id)
     {
+        $user = Auth::user();
         $character = Character::with('contests')->findOrFail($id);
+        if ($user->id !== $character->user_id) {
+            return redirect()->route('characters.index');
+        }
         return view('characters.details', compact('character'));
     }
 
@@ -72,7 +80,7 @@ class CharacterController extends Controller
     public function update(Request $request, Character $character)
     {
         if ($character->user_id !== Auth::id() && !(Auth::user()->admin && $character->is_enemy)) {
-            abort(403, 'Unauthorized action.');
+            return redirect()->route('characters.index');
         }
 
         $request->validate([
@@ -113,6 +121,11 @@ class CharacterController extends Controller
 
     public function startMatch(Character $character)
     {
+        $user = Auth::user();
+        if ($user->id !== $character->user_id) {
+            return redirect()->route('characters.index');
+        }
+
         $place = Place::inRandomOrder()->first();
 
         $opponent = Character::where('id', '!=', $character->id)->where('enemy', true)->inRandomOrder()->first();

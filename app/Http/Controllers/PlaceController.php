@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Place;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PlaceController extends Controller
 {
@@ -23,20 +24,27 @@ class PlaceController extends Controller
       'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
     ]);
 
-    $imagePath = $request->file('image')->store('images/places');
+    $imagePath = $request->file('image')->store('places', 'public');
 
     Place::create([
       'name' => $request->name,
       'image' => $imagePath,
     ]);
 
-    return redirect()->route('places.create')->with('success', 'Place creation successful.');
+    return redirect()->route('places.index')->with('success', 'Place creation successful.');
   }
 
   public function destroy(Place $place)
   {
     if (!auth()->user()->admin) {
       abort(403, 'Unauthorized action.');
+    }
+
+    if ($place->image) {
+      $path = 'public/' . $place->image;
+      if (Storage::exists($path)) {
+        Storage::delete($path);
+      }
     }
 
     $place->delete();
@@ -59,7 +67,7 @@ class PlaceController extends Controller
     $place->name = $request->name;
 
     if ($request->hasFile('image')) {
-      $imagePath = $request->file('image')->store('places');
+      $imagePath = $request->file('image')->store('places', 'public');
       $place->image = $imagePath;
     }
 

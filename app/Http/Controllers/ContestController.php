@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Character;
 use App\Models\Contest;
 use App\Models\Place;
+use Illuminate\Support\Facades\Auth;
+
 
 class ContestController extends Controller
 {
@@ -16,6 +18,10 @@ class ContestController extends Controller
 
   public function create(Character $character)
   {
+    $user = Auth::user();
+    if ($user->id !== $character->user_id || $character->enemy) {
+      return redirect()->back()->withErrors(["enemy" => "You cannot start a contest with an enemy!"])->withInput();
+    }
     $locations = Place::pluck('id')->toArray();
 
     $enemy = Character::where('id', '!=', $character->id)->where('enemy', true)->inRandomOrder()->first();
