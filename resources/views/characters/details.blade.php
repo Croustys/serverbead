@@ -58,7 +58,11 @@
             @foreach($character->contests as $contest)
             <a href="{{ route('contests.show', $contest) }}" class="block cursor-pointer hover:bg-gray-100 transition duration-200">
                 <div class="p-4">
+                    @if($contest->place)
                     <p class="text-sm text-gray-600 mb-2">{{ $contest->place->name }}</p>
+                    @else
+                    <p class="text-sm text-gray-600 mb-2">Place has been deleted.</p>
+                    @endif
                     <div class="flex items-center space-x-2">
                         @foreach($contest->characters as $char)
                         <div>
