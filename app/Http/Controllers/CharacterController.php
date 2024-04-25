@@ -65,7 +65,7 @@ class CharacterController extends Controller
     {
         $user = Auth::user();
         $character = Character::with('contests')->findOrFail($id);
-        if ($user->id !== $character->user_id) {
+        if ($user->id !== $character->user_id && !($user->admin && $character->enemy)) {
             return redirect()->route('characters.index');
         }
         return view('characters.details', compact('character'));
